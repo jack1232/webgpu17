@@ -2,6 +2,7 @@ import { CreateWireframe } from './wireframe';
 import { TorusWireframeData } from './vertex_data';
 import { vec3 } from 'gl-matrix';
 import $ from 'jquery';
+import "./site.css"
 
 const Create3DObject = async (R:number,r:number, N:number, n:number, center:vec3, isAnimation:boolean) => {
     const wireframeData = TorusWireframeData(R, r, N, n, center) as Float32Array;
