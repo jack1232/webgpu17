@@ -115,8 +115,8 @@ export const CreateShapeWithLight = async (vertexData: Float32Array, normalData:
         device.queue.writeBuffer(vertexUniformBuffer, 0, vp.viewProjectionMatrix as ArrayBuffer);
         device.queue.writeBuffer(fragmentUniformBuffer, 0, lightPosition);
         device.queue.writeBuffer(fragmentUniformBuffer, 16, eyePosition);
-        device.queue.writeBuffer(lightUniformBuffer, 0, new Float32Array(lightParams.flat()));
     }
+    device.queue.writeBuffer(lightUniformBuffer, 0, new Float32Array(lightParams.flat()));
   
     const uniformBindGroup = device.createBindGroup({
         layout: pipeline.getBindGroupLayout(0),
@@ -158,15 +158,21 @@ export const CreateShapeWithLight = async (vertexData: Float32Array, normalData:
     const renderPassDescription = {
         colorAttachments: [{
             view: textureView,
-            loadValue: { r: 0.2, g: 0.247, b: 0.314, a: 1.0 }, //background color
+            clearValue: { r: 0.2, g: 0.247, b: 0.314, a: 1.0 }, //background color
+            loadValue: { r: 0.2, g: 0.247, b: 0.314, a: 1.0 }, 
+            loadOp: 'clear',
             storeOp: 'store'
         }],
         depthStencilAttachment: {
             view: depthTexture.createView(),
+            depthClearValue: 1.0,
             depthLoadValue: 1.0,
             depthStoreOp: "store",
+            stencilClearValue: 0,
             stencilLoadValue: 0,
-            stencilStoreOp: "store"
+            stencilStoreOp: "store",
+            depthLoadOp: 'clear',
+            stencilLoadOp: 'clear'
         }
     };
     
