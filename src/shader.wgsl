@@ -1,8 +1,8 @@
 // vertex shader
 
 struct Uniforms {   
-    model_mat : mat4x4<f32>;  
-    view_project_mat : mat4x4<f32>;             
+    view_project_mat : mat4x4<f32>; 
+    model_mat : mat4x4<f32>;                  
     normal_mat : mat4x4<f32>;            
 };
 @binding(0) @group(0) var<uniform> uniforms : Uniforms;
@@ -47,5 +47,6 @@ fn fs_main(@location(0) v_position: vec4<f32>, @location(1) v_normal: vec4<f32>)
     let diffuse:f32 = light_uniforms.params[1] * max(dot(N, L), 0.0);
     let specular: f32 = light_uniforms.params[2] * pow(max(dot(N, H),0.0), light_uniforms.params[3]);
     let ambient:f32 = light_uniforms.params[0];               
-    return light_uniforms.color*(ambient + diffuse) + light_uniforms.specular_color * specular; 
+    let final_color = light_uniforms.color*(ambient + diffuse) + light_uniforms.specular_color * specular; 
+    return vec4<f32>(final_color.rgb, 1.0);
 }
