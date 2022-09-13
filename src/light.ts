@@ -31,6 +31,7 @@ export const CreateShapeWithLight = async (vertexData: Float32Array, normalData:
     const normalBuffer = CreateGPUBuffer(device, normalData);
 
     const pipeline = device.createRenderPipeline({
+        layout:'auto',
         vertex: {
             module: device.createShaderModule({                    
                 code: shader
@@ -159,7 +160,7 @@ export const CreateShapeWithLight = async (vertexData: Float32Array, normalData:
         colorAttachments: [{
             view: textureView,
             clearValue: { r: 0.2, g: 0.247, b: 0.314, a: 1.0 }, //background color
-            loadValue: { r: 0.2, g: 0.247, b: 0.314, a: 1.0 }, 
+            //loadValue: { r: 0.2, g: 0.247, b: 0.314, a: 1.0 }, 
             loadOp: 'clear',
             storeOp: 'store'
         }],
@@ -168,11 +169,11 @@ export const CreateShapeWithLight = async (vertexData: Float32Array, normalData:
             depthClearValue: 1.0,
             depthLoadValue: 1.0,
             depthStoreOp: "store",
-            stencilClearValue: 0,
-            stencilLoadValue: 0,
-            stencilStoreOp: "store",
             depthLoadOp: 'clear',
-            stencilLoadOp: 'clear'
+            /*stencilClearValue: 0,
+            stencilLoadValue: 0,
+            stencilStoreOp: "store",           
+            stencilLoadOp: 'clear'*/
         }
     };
     

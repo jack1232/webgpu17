@@ -1,19 +1,19 @@
 // vertex shader
 
 struct Uniforms {   
-    view_project_mat : mat4x4<f32>; 
-    model_mat : mat4x4<f32>;                  
-    normal_mat : mat4x4<f32>;            
+    view_project_mat : mat4x4<f32>,
+    model_mat : mat4x4<f32>,           
+    normal_mat : mat4x4<f32>,            
 };
 @binding(0) @group(0) var<uniform> uniforms : Uniforms;
 
 struct Output {
-    @builtin(position) position : vec4<f32>;
-    @location(0) v_position : vec4<f32>;
-    @location(1) v_normal : vec4<f32>;
+    @builtin(position) position : vec4<f32>,
+    @location(0) v_position : vec4<f32>,
+    @location(1) v_normal : vec4<f32>,
 };
 
-@stage(vertex)
+@vertex
 fn vs_main(@location(0) pos: vec4<f32>, @location(1) normal: vec4<f32>) -> Output {    
     var output: Output;            
     let m_position:vec4<f32> = uniforms.model_mat * pos; 
@@ -26,19 +26,19 @@ fn vs_main(@location(0) pos: vec4<f32>, @location(1) normal: vec4<f32>) -> Outpu
 // fragment shader 
 
 struct FragUniforms {
-    light_position : vec4<f32>;   
-    eye_position : vec4<f32>;
+    light_position : vec4<f32>,
+    eye_position : vec4<f32>,
 };
 @binding(1) @group(0) var<uniform> frag_uniforms : FragUniforms;
 
 struct LightUniforms {
-    color : vec4<f32>;   
-    specular_color : vec4<f32>;
-    params: vec4<f32>; // ambient_intensity, diffuse_intensity, specular_intensity, specular_shininess
+    color : vec4<f32>,  
+    specular_color : vec4<f32>,
+    params: vec4<f32>, // ambient_intensity, diffuse_intensity, specular_intensity, specular_shininess
 };
 @binding(2) @group(0) var<uniform> light_uniforms : LightUniforms;
 
-@stage(fragment)
+@fragment
 fn fs_main(@location(0) v_position: vec4<f32>, @location(1) v_normal: vec4<f32>) ->  @location(0) vec4<f32> {
     let N:vec3<f32> = normalize(v_normal.xyz);                
     let L:vec3<f32> = normalize(frag_uniforms.light_position.xyz - v_position.xyz);     
